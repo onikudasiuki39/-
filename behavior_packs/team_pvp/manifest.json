@@ -2,17 +2,17 @@
   "format_version": 2,
   "header": {
     "name": "Team PvP System BP",
-    "description": "Server-friendly team PvP addon with lives, spawn, admin UI, rankings and match timer.",
-    "uuid": "9a5cc28d-c5ce-49b2-8ed8-4db08f44eb30",
-    "version": [1, 0, 0],
+    "description": "Team PvP behavior pack with admin UI, lives, spawns, ranking, timer, and persistent data.",
+    "uuid": "b5cd476e-c3d5-4768-a736-f4ae0d622ed2",
+    "version": [1, 0, 1],
     "min_engine_version": [1, 21, 0]
   },
   "modules": [
     {
       "type": "script",
       "language": "javascript",
-      "uuid": "03c21174-eebc-4371-b48b-dd0cfbbd9aca",
-      "version": [1, 0, 0],
+      "uuid": "1ee053f7-4f76-4633-ad4c-ad85d0b52c1a",
+      "version": [1, 0, 1],
       "entry": "scripts/main.js"
     }
   ],
@@ -24,6 +24,10 @@
     {
       "module_name": "@minecraft/server-ui",
       "version": "1.3.0"
+    },
+    {
+      "uuid": "5ef086e8-8837-4e61-b6e2-c9bd93539116",
+      "version": [1, 0, 0]
     }
   ]
 }

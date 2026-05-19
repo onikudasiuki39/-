@@ -1,4 +1,4 @@
-import { world, system, GameMode } from "@minecraft/server";
+import { world, system } from "@minecraft/server";
 import { ActionFormData, ModalFormData, MessageFormData } from "@minecraft/server-ui";
 
 const KEY = "tpvp:data";
@@ -145,7 +145,7 @@ function endGame(msg) {
   state.game.active = false;
   for (const p of world.getAllPlayers()) {
     p.sendMessage(`§6[TPVP] ${msg}`);
-    safeRun("gmSurvival", () => p.setGameMode(GameMode.survival));
+    safeRun("gmSurvival", () => p.runCommand("gamemode survival @s"));
   }
   saveState();
 }
@@ -353,7 +353,7 @@ function toggleGame(player) {
       pd.kills = 0;
       if (pd.lives <= 0) pd.lives = state.settings.initialLives;
       const t = getPlayerTeam(p); if (t) spawnForTeam(p, t);
-      safeRun("gmSurvival", () => p.setGameMode(GameMode.survival));
+      safeRun("gmSurvival", () => p.runCommand("gamemode survival @s"));
       updateHud(p);
     }
     world.sendMessage("§a[TPVP] Match started");
@@ -367,7 +367,7 @@ world.afterEvents.playerSpawn.subscribe(({ player, initialSpawn }) => safeRun("p
   const pd = ensurePlayerData(player);
   if (!initialSpawn && state.game.active) {
     if (pd.lives <= 0) {
-      safeRun("gmSpec", () => player.setGameMode(GameMode.spectator));
+      safeRun("gmSpec", () => player.runCommand("gamemode spectator @s"));
       return;
     }
     const t = getPlayerTeam(player);
@@ -400,7 +400,7 @@ world.afterEvents.entityDie.subscribe((ev) => safeRun("entityDie", () => {
   const vpd = ensurePlayerData(victim);
   if (state.game.active) {
     vpd.lives = Math.max(0, vpd.lives - 1);
-    if (vpd.lives <= 0) safeRun("gmSpec", () => victim.setGameMode(GameMode.spectator));
+    if (vpd.lives <= 0) safeRun("gmSpec", () => victim.runCommand("gamemode spectator @s"));
   }
   const killer = ev.damageSource?.damagingEntity;
   if (killer?.typeId === "minecraft:player" && killer.id !== victim.id) {
