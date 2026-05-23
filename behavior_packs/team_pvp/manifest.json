@@ -1,0 +1,33 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Team PvP System BP",
+    "description": "Team PvP behavior pack with admin UI, lives, spawns, ranking, timer, and persistent data.",
+    "uuid": "b5cd476e-c3d5-4768-a736-f4ae0d622ed2",
+    "version": [1, 0, 1],
+    "min_engine_version": [1, 21, 0]
+  },
+  "modules": [
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "1ee053f7-4f76-4633-ad4c-ad85d0b52c1a",
+      "version": [1, 0, 1],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "module_name": "@minecraft/server",
+      "version": "1.13.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "1.3.0"
+    },
+    {
+      "uuid": "5ef086e8-8837-4e61-b6e2-c9bd93539116",
+      "version": [1, 0, 0]
+    }
+  ]
+}
