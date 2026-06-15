@@ -1,106 +1,278 @@
-import { VersionLog, CalculatorMode } from './types';
-import { Calculator, Divide, Hash, PercentCircle, Scaling, ShoppingBag, Network, Split } from 'lucide-react';
+import { DisasterAlert, IntegrationEndpoint, LiveCamera } from './types';
 
-export const APP_NAME = "OmniCalc Pro";
+export const APP_NAME = 'QuakeCam OBS Director';
 
-export const VERSION_HISTORY: VersionLog[] = [
+export const CAMERA_ROTATION_SECONDS = 6;
+
+export const LIVE_CAMERAS: LiveCamera[] = [
   {
-    version: "V1.5.1",
-    date: "2024-05-26",
-    changes: [
-      "あまり計算エンジンの強化（指数表記の数値も正確に処理）",
-      "素因数分解の安全装置を追加（フリーズ防止のため桁数制限を設定）",
-      "計算結果が大きすぎる場合の表示を「桁オーバー」に変更"
-    ]
+    id: 'sapporo-odori',
+    name: '札幌 大通公園ライブ',
+    prefecture: '北海道',
+    region: '北海道',
+    category: 'city',
+    source: 'YouTube Live',
+    streamUrl: 'https://www.youtube.com/results?search_query=札幌+大通公園+ライブカメラ',
+    embedUrl: 'https://www.youtube.com/embed/live_stream?channel=UC4R8DWoMoI7CAwX8_LjQHig',
+    latitude: 43.0618,
+    longitude: 141.3545,
+    priority: 78,
   },
   {
-    version: "V1.5.0",
-    date: "2024-05-26",
-    changes: [
-      "「順列・組み合わせ」機能を追加（場合の数の計算）",
-      "「約数・倍数・素因数分解」機能を追加（宿題の丸付けに最適）",
-      "メニューの構成を整理"
-    ]
+    id: 'sendai-station',
+    name: '仙台駅前ライブ',
+    prefecture: '宮城県',
+    region: '東北',
+    category: 'city',
+    source: 'Cametan',
+    streamUrl: 'https://www.cametan.com/',
+    embedUrl: 'https://www.youtube.com/embed/live_stream?channel=UCkAGrHCLFmlK3H2kd6isipg',
+    latitude: 38.2602,
+    longitude: 140.8824,
+    priority: 82,
   },
   {
-    version: "V1.4.3",
-    date: "2024-05-25",
-    changes: [
-      "標準電卓での入力制御を強化（小数点の連打防止など）",
-      "割引・税込計算の整合性を修正（端数処理による1円の誤差を解消）",
-      "内部コードの最適化とクリーンアップ"
-    ]
+    id: 'tokyo-shibuya',
+    name: '東京 渋谷スクランブル交差点',
+    prefecture: '東京都',
+    region: '関東',
+    category: 'city',
+    source: 'YouTube Live',
+    streamUrl: 'https://www.youtube.com/results?search_query=渋谷+スクランブル交差点+ライブカメラ',
+    embedUrl: 'https://www.youtube.com/embed/live_stream?channel=UC6Zc5iy2Pq8bWJKS4CrU5ow',
+    latitude: 35.6595,
+    longitude: 139.7005,
+    priority: 95,
   },
   {
-    version: "V1.4.2",
-    date: "2024-05-24",
-    changes: [
-      "割り算のあまり計算ロジックを修正（指定した桁数に基づく正確なあまりを算出）",
-      "「割り切れる場合はあまり0」の判定を厳密化",
-    ]
+    id: 'chiba-kujukuri',
+    name: '千葉 九十九里浜 海岸',
+    prefecture: '千葉県',
+    region: '関東',
+    category: 'coast',
+    source: '自治体・道路管理者',
+    streamUrl: 'https://www.cametan.com/',
+    embedUrl: 'https://www.youtube.com/embed/live_stream?channel=UCoMdktPbSTixAyNGwb-UYkQ',
+    latitude: 35.5377,
+    longitude: 140.4443,
+    priority: 91,
   },
   {
-    version: "V1.4.1",
-    date: "2024-05-24",
-    changes: [
-      "割り算・概数モードの表示設定文言を調整",
-    ]
+    id: 'shizuoka-suruga',
+    name: '静岡 駿河湾沿岸',
+    prefecture: '静岡県',
+    region: '中部',
+    category: 'coast',
+    source: 'Cametan',
+    streamUrl: 'https://www.cametan.com/',
+    embedUrl: 'https://www.youtube.com/embed/live_stream?channel=UC_x5XG1OV2P6uZZ5FSM9Ttw',
+    latitude: 34.9733,
+    longitude: 138.3889,
+    priority: 94,
   },
   {
-    version: "V1.4.0",
-    date: "2024-05-24",
-    changes: [
-      "割り算・概数モードに「あまり計算」オプションを追加",
-      "入力フォームのUIデザインを改善し、より直感的に変更",
-    ]
+    id: 'niigata-coast',
+    name: '新潟 日本海沿岸',
+    prefecture: '新潟県',
+    region: '北陸',
+    category: 'coast',
+    source: '河川カメラ',
+    streamUrl: 'https://www.cametan.com/',
+    embedUrl: 'https://www.youtube.com/embed/live_stream?channel=UCBR8-60-B28hp2BmDPdntcQ',
+    latitude: 37.9161,
+    longitude: 139.0364,
+    priority: 88,
   },
   {
-    version: "V1.3.0",
-    date: "2024-05-23",
-    changes: [
-      "全ての計算で小数を完全サポート（あまり計算含む）",
-      "計算精度の向上（浮動小数点誤差の自動補正）",
-      "バグ修正と安定性の向上"
-    ]
+    id: 'osaka-umeda',
+    name: '大阪 梅田ライブ',
+    prefecture: '大阪府',
+    region: '近畿',
+    category: 'city',
+    source: 'YouTube Live',
+    streamUrl: 'https://www.youtube.com/results?search_query=大阪+梅田+ライブカメラ',
+    embedUrl: 'https://www.youtube.com/embed/live_stream?channel=UC5w3mE7sT3Gw5s6u84p8lWQ',
+    latitude: 34.7055,
+    longitude: 135.4983,
+    priority: 90,
   },
   {
-    version: "V1.2.0",
-    date: "2024-05-22",
-    changes: [
-      "「割り算と概数」機能を追加（商の四捨五入などを一括計算）",
-      "「どちらが得？」機能を追加（単価の自動計算・比較）",
-      "端数処理ロジックの強化"
-    ]
+    id: 'wakayama-shirahama',
+    name: '和歌山 白浜海岸',
+    prefecture: '和歌山県',
+    region: '近畿',
+    category: 'coast',
+    source: 'Cametan',
+    streamUrl: 'https://www.cametan.com/',
+    embedUrl: 'https://www.youtube.com/embed/live_stream?channel=UCupvZG-5ko_eiXAupbDfxWw',
+    latitude: 33.6782,
+    longitude: 135.3481,
+    priority: 92,
   },
   {
-    version: "V1.1.0",
-    date: "2024-05-21",
-    changes: [
-      "割引・消費税計算機能の追加",
-      "計算履歴のコピー＆シェア機能の追加",
-      "UIの微調整"
-    ]
+    id: 'kochi-katsurahama',
+    name: '高知 桂浜・太平洋',
+    prefecture: '高知県',
+    region: '四国',
+    category: 'coast',
+    source: '自治体・道路管理者',
+    streamUrl: 'https://www.cametan.com/',
+    embedUrl: 'https://www.youtube.com/embed/live_stream?channel=UC8-Th83bH_thdKZDJCrn88g',
+    latitude: 33.4963,
+    longitude: 133.5751,
+    priority: 96,
   },
   {
-    version: "V1.0.0",
-    date: "2024-05-20",
-    changes: [
-      "アプリの初期リリース",
-      "標準計算機（四捨五入設定付き）の実装",
-      "あまり計算（Modulo）機能の追加",
-      "概数・端数処理ツールの追加",
-      "計算履歴の保存機能",
-    ]
-  }
+    id: 'fukuoka-hakata',
+    name: '福岡 博多駅前',
+    prefecture: '福岡県',
+    region: '九州',
+    category: 'city',
+    source: 'YouTube Live',
+    streamUrl: 'https://www.youtube.com/results?search_query=福岡+博多駅+ライブカメラ',
+    embedUrl: 'https://www.youtube.com/embed/live_stream?channel=UC0p5jTq6Xx_DosDFxVXnWaQ',
+    latitude: 33.5904,
+    longitude: 130.4208,
+    priority: 84,
+  },
+  {
+    id: 'okinawa-naha-port',
+    name: '沖縄 那覇港・海岸',
+    prefecture: '沖縄県',
+    region: '沖縄',
+    category: 'coast',
+    source: 'Cametan',
+    streamUrl: 'https://www.cametan.com/',
+    embedUrl: 'https://www.youtube.com/embed/live_stream?channel=UCrp_UI8XtuYfpiqluWLD7Lw',
+    latitude: 26.2124,
+    longitude: 127.6792,
+    priority: 87,
+  },
+  {
+    id: 'yamanashi-fuji',
+    name: '山梨 富士山ビュー',
+    prefecture: '山梨県',
+    region: '中部',
+    category: 'mountain',
+    source: 'YouTube Live',
+    streamUrl: 'https://www.youtube.com/results?search_query=富士山+ライブカメラ',
+    embedUrl: 'https://www.youtube.com/embed/live_stream?channel=UCw95T_TgbGHhTml4xZ9yIqg',
+    latitude: 35.3606,
+    longitude: 138.7274,
+    priority: 80,
+  },
 ];
 
-export const MODES = [
-  { id: CalculatorMode.STANDARD, label: '標準・四捨五入', icon: Calculator, description: '一般的な計算と小数点処理' },
-  { id: CalculatorMode.ADVANCED_DIV, label: '割り算・概数', icon: Scaling, description: '商を指定の位で丸める' },
-  { id: CalculatorMode.REMAINDER, label: 'あまり計算', icon: Divide, description: '整数の割り算と余り' },
-  { id: CalculatorMode.INTEGER_TOOLS, label: '約数・倍数・素因数', icon: Split, description: '最大公約数や素因数分解' },
-  { id: CalculatorMode.COMBINATORICS, label: '順列・組み合わせ', icon: Network, description: 'nCr, nPr, 階乗の計算' },
-  { id: CalculatorMode.ROUNDING, label: '概数・端数', icon: Hash, description: '数値の丸め処理のみ' },
-  { id: CalculatorMode.DISCOUNT, label: '割引・税込', icon: PercentCircle, description: '％計算と消費税' },
-  { id: CalculatorMode.UNIT_PRICE, label: 'どちらが得？', icon: ShoppingBag, description: '単価比較で最安を判定' },
+export const MOCK_ALERTS: DisasterAlert[] = [
+  {
+    type: 'normal',
+    title: '平常監視',
+    location: '全国',
+    latitude: 36.2048,
+    longitude: 138.2529,
+    issuedAt: '自動巡回中',
+    description: '地震・津波アラートがないため、全国のライブカメラを6秒ごとに切り替えます。',
+  },
+  {
+    type: 'earthquake',
+    title: '地震速報デモ',
+    location: '静岡県中部',
+    latitude: 34.9769,
+    longitude: 138.3831,
+    magnitude: 6.1,
+    intensity: '震度5強',
+    issuedAt: 'Zero Quake Webhook 受信想定',
+    description: '震源付近から近い順にライブカメラを自動選局します。',
+  },
+  {
+    type: 'tsunami',
+    title: '津波警報デモ',
+    location: '太平洋沿岸',
+    latitude: 33.4963,
+    longitude: 133.5751,
+    issuedAt: '気象庁 XML 受信想定',
+    description: '海岸・港湾カテゴリのライブカメラを優先表示します。',
+  },
+];
+
+export const INTEGRATIONS: IntegrationEndpoint[] = [
+  {
+    name: 'Zero Quake / 地震速報アプリ',
+    description: 'Webhook・ローカル通知・URLスキームから震源緯度経度と震度を取り込みます。',
+    status: 'ready',
+  },
+  {
+    name: '気象庁 防災情報 XML',
+    description: '地震情報、津波予報、津波警報を監視してOBSシーンを自動切替します。',
+    status: 'planned',
+  },
+  {
+    name: 'Cametan / YouTube Live クローラ',
+    description: '利用規約を尊重し、公開ページ・RSS・手動登録から使用可能なカメラを検出します。',
+    status: 'mock',
+  },
+  {
+    name: 'OBS WebSocket',
+    description: 'Browser Source のURL差し替え、テロップ表示、緊急シーン切替を行います。',
+    status: 'ready',
+  },
+];
+
+export const VERSION_HISTORY = [
+  {
+    version: 'V2.0.0',
+    date: '2026-06-15',
+    changes: [
+      'OBS向けの地震・津波ライブカメラ自動編成ダッシュボードへ刷新',
+      '平常時6秒ローテーション、地震時の近傍選局、津波時の海岸カメラ優先を追加',
+      'Zero Quake、気象庁XML、Cametan、YouTube Live、OBS WebSocketの連携設計を表示',
+    ],
+  },
+];
+
+export const DOWNLOAD_STEPS = [
+  {
+    title: '1. ZIPをダウンロード',
+    description: 'GitHubのCodeボタンからDownload ZIPを選び、PCの任意フォルダに展開します。',
+  },
+  {
+    title: '2. 依存パッケージを入れる',
+    description: '展開したフォルダでターミナルを開き、React/Viteの依存関係をインストールします。',
+    command: 'npm install',
+  },
+  {
+    title: '3. ローカルで起動',
+    description: 'OBSに取り込む前にブラウザで動作確認します。標準では http://localhost:5173/ です。',
+    command: 'npm run dev',
+  },
+  {
+    title: '4. 配信用にビルド',
+    description: '本番配信用の静的ファイルは dist フォルダに生成されます。',
+    command: 'npm run build',
+  },
+];
+
+export const OBS_USAGE_STEPS = [
+  {
+    title: 'OBS Browser Sourceを追加',
+    description: 'OBSで「ソース」→「ブラウザ」を追加し、ローカル起動URLまたは配信サーバーURLを貼り付けます。',
+  },
+  {
+    title: '幅1920・高さ1080を推奨',
+    description: '地震テロップ、カメラ名、右側キューが見切れにくい16:9レイアウトです。',
+  },
+  {
+    title: '平常時はそのまま巡回',
+    description: 'アラートがない時は全国カメラを6秒ごとに自動切替します。停止ボタンで手動固定もできます。',
+  },
+  {
+    title: '地震・津波テスト',
+    description: '画面上部のデモボタンで、震源近傍選局と海岸優先選局の動きを確認できます。',
+  },
+];
+
+export const SAFETY_NOTES = [
+  '実運用では、YouTubeやCametan等の利用規約、埋め込み可否、自治体カメラの再配信条件を必ず確認してください。',
+  '緊急情報は気象庁・自治体など一次情報と照合し、この画面だけを避難判断の根拠にしないでください。',
+  'Zero Quake等との本接続はWebhook受信サーバーやOBS WebSocket認証を別途実装する想定です。',
 ];

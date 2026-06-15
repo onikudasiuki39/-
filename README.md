@@ -1,20 +1,75 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# QuakeCam OBS Director
 
-# Run and deploy your AI Studio app
+地震・津波アラートに合わせて、OBSに表示するライブカメラを自動で切り替えるためのReact/Viteアプリです。
 
-This contains everything you need to run your app locally.
+## 主な機能
 
-View your app in AI Studio: https://ai.studio/apps/drive/1DMv2UsuGRtCOoC3sWAgxcjm-PulYrcc8
+- 平常時は全国のライブカメラ候補を6秒ごとにローテーション
+- 地震速報時は震源に近いライブカメラを優先表示
+- 津波予報・警報時は海岸・港湾カメラを優先表示
+- Zero Quake、気象庁XML、Cametan/YouTube Live、OBS WebSocket連携を想定した設計パネル
+- OBS Browser Source用URLコピーと、現在の選局キューをJSONで保存する機能
 
-## Run Locally
+> 注意: 現在のカメラ一覧とアラートはデモ用データです。実運用では、配信元の利用規約、埋め込み可否、再配信条件、気象庁・自治体等の一次情報との照合を必ず行ってください。
 
-**Prerequisites:**  Node.js
+## ダウンロード方法
 
+### ZIPで入手する場合
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1. GitHubのリポジトリ画面で **Code** を押します。
+2. **Download ZIP** を選びます。
+3. ZIPを任意のフォルダに展開します。
+4. 展開したフォルダをターミナルで開きます。
+
+### Gitで入手する場合
+
+```bash
+git clone <このリポジトリのURL>
+cd <展開したフォルダ>
+```
+
+## 起動方法
+
+初回だけ依存パッケージをインストールします。
+
+```bash
+npm install
+```
+
+開発サーバーを起動します。
+
+```bash
+npm run dev
+```
+
+ブラウザで表示されるURL、通常は `http://localhost:5173/` を開きます。
+
+## OBSでの使い方
+
+1. OBSを開きます。
+2. **ソース** の **+** を押します。
+3. **ブラウザ** を選びます。
+4. URLに `http://localhost:5173/` を入れます。
+5. 幅は `1920`、高さは `1080` を推奨します。
+6. 画面上部の **OBS URLコピー** を押すと、Browser Sourceに貼り付けるURLをコピーできます。
+7. 平常時は自動ローテーション、地震デモは震源近傍、津波デモは海岸カメラ優先で切り替わります。
+
+## 配信用にビルドする方法
+
+```bash
+npm run build
+```
+
+`dist/` フォルダに静的ファイルが生成されます。Webサーバーに置く場合は、この `dist/` の中身を公開してください。
+
+## 設定JSONの保存
+
+画面右上の **設定JSON保存** を押すと、現在のアラート、選局キュー、OBS Browser Source URLを含む `quakecam-obs-config.json` をダウンロードできます。
+
+## 今後の実運用に必要なもの
+
+- Zero QuakeなどからWebhookを受ける小型サーバー
+- 気象庁XMLの取得・解析処理
+- OBS WebSocketの認証情報管理
+- Cametan/YouTube/自治体カメラの利用規約に沿ったカメラ検出・登録処理
+- 配信に使ってよいカメラだけを許可リスト化する運用
